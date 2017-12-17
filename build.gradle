@@ -42,3 +42,7 @@ dependencies {
 	compile "org.flywaydb:flyway-core:5.0.2"
 	compile 'io.jsonwebtoken:jjwt:0.7.0'
 }
+
+springBoot {
+	executable = true
+}
