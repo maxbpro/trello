@@ -1,78 +1,44 @@
 angular.module('Angello.Common')
-    .service('LoginService',
-        function ($rootScope, LoadingService, EndpointConfigService, auth, store,
-            CURRENT_BACKEND, $log, $location, jwtHelper) {
-            var service = this;
+    .factory('authService',['AUTH_ENDPOINT','LOGOUT_ENDPOINT','$http','$localStorage','$rootScope', '$location',
+    function(AUTH_ENDPOINT,LOGOUT_ENDPOINT,$http, $localStorage, $rootScope, $location){
 
-            function saveUserAndProfile(profile, token) {
-              store.set('profile', profile);
-              $rootScope.$broadcast('onLogin', profile);
-              $rootScope.$broadcast('onCurrentUserId', profile.user_id);
-              store.set('id_token', token);
-            }
+        var auth={};
 
-            var loginCallback;
-            if (CURRENT_BACKEND === 'firebase') {
-                loginCallback = function(onLogin, error) {
-                  return function(profile, token) {
-                    saveUserAndProfile(profile, token);
-                    auth.getToken({
-                        api: 'firebase'
-                    }).then(function(token) {
-                        store.set('userToken', token.id_token);
-                        onLogin(profile, token.id_token);
-                    }, function(err) {
-                        error(err);
-                        $log.error("Error getting Firebase token", err);
-                    });
-                  }
-                };
-            } else {
-                loginCallback = function(onLogin) {
-                  return function(profile, token) {
-                    saveUserAndProfile(profile, token);
-                    store.set('userToken', token);
-                    onLogin(profile, token);
-                  }
-                };
-            }
+        auth.login=function(username,password){
 
-            service.login = function(opts, ok, error) {
-                var options = angular.extend({
-                    closable: false
-                }, opts);
-                auth.signin(options, loginCallback(ok, error), error)
-            };
+            var params = $.param({username:username,password:password});
+            return $http({
+                method: 'POST',
+                url: AUTH_ENDPOINT,
+                data: params,
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 
-            service.authenticateUser = function() {
-              if (!auth.isAuthenticated) {
-                var token = store.get('id_token');
-                if (!token || jwtHelper.isTokenExpired(token)) {
-                  $location.path('/login');
-                } else {
-                  var profile = store.get('profile');
-                  auth.authenticate(profile, token);
-                  $rootScope.$broadcast('onCurrentUserId', profile.user_id);
-                }
-              }
+            }).then(function(response,status){
 
-            }
+                // store username and token in local storage to keep user logged in between page refreshes
+                $localStorage.currentUser = { user: response.data.user, token: response.data.token };
 
-            service.logout = function() {
-                store.remove('id_token');
-                store.remove('profile');
-                store.remove('userToken');
-                $rootScope.$broadcast('onCurrentUserId', null);
+                $rootScope.$broadcast('onCurrentUser', $localStorage.currentUser.user);
+                $rootScope.$broadcast('onCurrentUserId', $localStorage.currentUser.user.id);
+
+                // add jwt token to auth header for all requests made by the $http service
+                $http.defaults.headers.common.Authorization = 'Bearer ' + auth.token;
+
+                return auth.user;
+            });
+
+        }
+
+        auth.logout=function(){
+            return $http.post(LOGOUT_ENDPOINT).then(function(response){
+
+                delete $localStorage.currentUser;
+                $http.defaults.headers.common.Authorization = '';
                 $location.path('/login');
-            }
+            });
+        }
 
-            service.getCurrentUser = function () {
-                return store.get('profile');
-            };
+        return auth;
 
-            service.getCurrentUserId = function () {
-                var user = service.getCurrentUser();
-                return user ? user.user_id : null;
-            };
-    });
-;
+    }]);
+

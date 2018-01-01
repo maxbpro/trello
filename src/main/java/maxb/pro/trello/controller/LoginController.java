@@ -41,7 +41,7 @@ public class LoginController {
         List<String> roles = new ArrayList<>();
         roles.add("USER");
         appUser.setRoles(roles);
-        return new ResponseEntity<AppUser>(appUserRepository.save(appUser), HttpStatus.CREATED);
+        return new ResponseEntity<>(appUserRepository.save(appUser), HttpStatus.CREATED);
     }
 
 

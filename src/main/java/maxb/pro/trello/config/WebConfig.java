@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.logout.HttpStatusReturningLogoutSuccessHandler;
 
 
 @Configuration
@@ -37,7 +38,9 @@ public class WebConfig extends WebSecurityConfigurerAdapter {
     public void configure(WebSecurity web) throws Exception {
 
         web.ignoring()
-                .antMatchers("/", "/vendor/**", "/css/**", "/js/**", "/img/**", "/static/**", "/index.html", "/app/**", "/register", "/authenticate", "/favicon.ico");
+                .antMatchers("/", "/vendor/**", "/src/angello/**",
+                        "/assets/css/**", "/assets/js/**", "/assets/img/**", "/static/**", "/index.html", "/app/**", "/register",
+                        "/authenticate", "/favicon.ico");
     }
 
 
@@ -45,20 +48,26 @@ public class WebConfig extends WebSecurityConfigurerAdapter {
     // We can specify our authorization criteria inside this method.
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-//        http
-//                // starts authorizing configurations
-//                .authorizeRequests()
-//                // authenticate all remaining URLS
-//                .anyRequest().fullyAuthenticated().and()
-//                // adding JWT filter
-//                .addFilterBefore(new JWTFilter(), UsernamePasswordAuthenticationFilter.class)
-//                // enabling the basic authentication
-//                .httpBasic().and()
-//                // configuring the session as state less. Which means there is
-//                // no session in the server
-//                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-//                // disabling the CSRF - Cross Site Request Forgery
-//                .csrf().disable();
+
+        http
+                .authorizeRequests()
+                .antMatchers("/static").permitAll()
+                // authenticate all remaining URLS
+                .anyRequest().fullyAuthenticated()
+                .and()
+                // adding JWT filter
+                .addFilterBefore(new JWTFilter(), UsernamePasswordAuthenticationFilter.class)
+                // enabling the basic authentication
+                .httpBasic()
+                .and()
+                .logout().logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler())
+                .and()
+                // configuring the session as state less. Which means there is
+                // no session in the server
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                // disabling the CSRF - Cross Site Request Forgery
+                .csrf().disable();
     }
 
 

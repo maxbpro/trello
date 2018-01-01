@@ -1,12 +1,11 @@
 angular.module('Angello.Common')
     .service('StoriesModel',
         function ($http, EndpointConfigService, UtilsService) {
-            var service = this,
-                MODEL = '/stories/';
+            var service = this;
+            var MODEL = 'stories';
 
             service.all = function () {
-                return $http.get(EndpointConfigService.getUrl(
-                    MODEL + EndpointConfigService.getCurrentFormat()))
+                return $http.get(EndpointConfigService.getCurrentURI() + MODEL)
                         .then(
                             function(result) {
                                 return UtilsService.objectToArray(result);
@@ -16,25 +15,23 @@ angular.module('Angello.Common')
 
             service.fetch = function (story_id) {
                 return $http.get(
-                    EndpointConfigService.getUrlForId(MODEL, story_id)
+                    EndpointConfigService.getCurrentURI() + MODEL + "/" + story_id
                 );
             };
 
             service.create = function (story) {
-                return $http.post(
-                    EndpointConfigService.getUrl(MODEL + EndpointConfigService.getCurrentFormat()), story
-                );
+                return $http.post(EndpointConfigService.getCurrentURI() + MODEL, story);
             };
 
             service.update = function (story_id, story) {
                 return $http.put(
-                    EndpointConfigService.getUrlForId(MODEL, story_id), story
+                    EndpointConfigService.getCurrentURI() + MODEL + "/" + story_id, story
                 );
             };
 
             service.destroy = function (story_id) {
                 return $http.delete(
-                    EndpointConfigService.getUrlForId(MODEL, story_id)
+                    EndpointConfigService.getCurrentURI() + MODEL + "/" + story_id
                 );
             };
         });

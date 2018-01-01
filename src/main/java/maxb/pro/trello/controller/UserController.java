@@ -10,6 +10,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.PostConstruct;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -20,6 +22,18 @@ public class UserController {
     @Autowired
     private AppUserRepository appUserRepository;
 
+
+//    @PostConstruct
+//    private void init(){
+//        AppUser appUser = new AppUser();
+//        appUser.setEmail("maxbpro2009@gmail.com");
+//        appUser.setPassword("1234");
+//        appUser.setName("Maxim Buyanow");
+//        List<String> roles = new ArrayList<>();
+//        roles.add("USER");
+//        appUser.setRoles(roles);
+//        appUserRepository.save(appUser);
+//    }
 
     /**
      * Web service for getting all the appUsers in the application.
@@ -45,9 +59,9 @@ public class UserController {
     public ResponseEntity<AppUser> userById(@PathVariable Long id) {
         AppUser appUser = appUserRepository.findOne(id);
         if (appUser == null) {
-            return new ResponseEntity<AppUser>(HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } else {
-            return new ResponseEntity<AppUser>(appUser, HttpStatus.OK);
+            return new ResponseEntity<>(appUser, HttpStatus.OK);
         }
     }
 
@@ -65,12 +79,12 @@ public class UserController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String loggedUsername = auth.getName();
         if (appUser == null) {
-            return new ResponseEntity<AppUser>(HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } else if (appUser.getUsername().equalsIgnoreCase(loggedUsername)) {
             throw new RuntimeException("You cannot delete your account");
         } else {
             appUserRepository.delete(appUser);
-            return new ResponseEntity<AppUser>(appUser, HttpStatus.OK);
+            return new ResponseEntity<>(appUser, HttpStatus.OK);
         }
 
 
@@ -89,7 +103,12 @@ public class UserController {
         if (appUserRepository.findOneByEmail(appUser.getUsername()) != null) {
             throw new RuntimeException("Username already exist");
         }
-        return new ResponseEntity<AppUser>(appUserRepository.save(appUser), HttpStatus.CREATED);
+
+        List<String> roles = new ArrayList<>();
+        roles.add("USER");
+        appUser.setRoles(roles);
+
+        return new ResponseEntity<>(appUserRepository.save(appUser), HttpStatus.CREATED);
     }
 
 
@@ -100,8 +119,8 @@ public class UserController {
      * @return modified appUser
      */
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @RequestMapping(value = "/users", method = RequestMethod.PUT)
-    public AppUser updateUser(@RequestBody AppUser appUser) {
+    @RequestMapping(value = "/users/{id}", method = RequestMethod.PUT)
+    public AppUser updateUser(@PathVariable Long id, @RequestBody AppUser appUser) {
         if (appUserRepository.findOneByEmail(appUser.getUsername()) != null
                 && appUserRepository.findOneByEmail(appUser.getUsername()).getId() != appUser.getId()) {
             throw new RuntimeException("Username already exist");

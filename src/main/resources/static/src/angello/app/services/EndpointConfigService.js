@@ -1,22 +1,20 @@
 angular.module('Angello.Common')
-    //.constant('CURRENT_BACKEND', 'node')
-    .constant('CURRENT_BACKEND', 'firebase')
+    .constant('CURRENT_BACKEND', 'java')
     .service('EndpointConfigService', function($rootScope, CURRENT_BACKEND) {
         var service = this,
             endpointMap = {
-                firebase: { URI: 'https://my-first-angello.firebaseio.com/', root: 'clients/', format: '.json' },
-                node: { URI: 'http://localhost:4000/', root: 'api/clients/', format: ''}
+                java: { URI: 'http://localhost:8080/', root: '', format: ''}
             },
             currentEndpoint = endpointMap[CURRENT_BACKEND],
             userId = null,
             backend = CURRENT_BACKEND;
 
         service.getUrl = function(model) {
-            return currentEndpoint.URI + currentEndpoint.root + userId + model;
+            return currentEndpoint.URI + model;
         };
 
         service.getUrlForId = function(model, id) {
-            return service.getUrl(model) + id + currentEndpoint.format;
+            return service.getUrl(model) + id;
         };
 
         service.getCurrentBackend = function() {

@@ -19,6 +19,7 @@ angular.module('Angello.User')
                             $rootScope.$broadcast('storyDeleted');
                             $log.debug('RESULT', result);
                         }, function (reason) {
+                            $rootScope.$broadcast('storyDeleted');
                             $log.debug('ERROR', reason);
                         });
                 };

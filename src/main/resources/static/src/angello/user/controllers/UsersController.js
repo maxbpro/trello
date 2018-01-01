@@ -2,7 +2,7 @@ angular.module('Angello.User')
     .controller('UsersCtrl', function ($scope, $log, UsersModel, $timeout) {
         var myUsers = this;
 
-        myUsers.newUser = { name: '', email: '' };
+        myUsers.newUser = { name: '', email: '', password: '' };
         myUsers.users = {};
 
         myUsers.showMessages = function (field) {
@@ -29,7 +29,7 @@ angular.module('Angello.User')
             UsersModel.create(angular.copy(myUsers.newUser))
                 .then(function (result) {
                     myUsers.getUsers();
-                    myUsers.newUser = { name: '', email: '' };
+                    myUsers.newUser = { name: '', email: '' , password: '' };
                     resetForm();
                     $log.debug('RESULT', result);
                 }, function (reason) {
