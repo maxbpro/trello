@@ -40,7 +40,7 @@ public class WebConfig extends WebSecurityConfigurerAdapter {
         web.ignoring()
                 .antMatchers("/", "/vendor/**", "/src/angello/**",
                         "/assets/css/**", "/assets/js/**", "/assets/img/**", "/static/**", "/index.html", "/app/**", "/register",
-                        "/authenticate", "/favicon.ico");
+                        "/authenticate", "/users", "/dashboard", "/login", "/favicon.ico");
     }
 
 

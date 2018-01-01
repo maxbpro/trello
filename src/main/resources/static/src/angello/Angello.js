@@ -12,7 +12,7 @@ var myModule = angular.module('Angello',
         'angular-storage'
     ]);
 
-myModule.config(function($routeProvider) {
+myModule.config(function($routeProvider, $locationProvider) {
 
     $routeProvider
         .when('/', {
@@ -81,10 +81,10 @@ myModule.config(function($routeProvider) {
             templateUrl: 'src/angello/login/tmpl/login.html',
             controller: 'LoginCtrl',
             controllerAs: 'login'
-        });
-        //.otherwise({redirectTo: '/'});
+        })
+        .otherwise({redirectTo: '/'});
 
-
+        $locationProvider.html5Mode(true);
 });
 
 myModule.factory('loadingInterceptor', function (LoadingService) {

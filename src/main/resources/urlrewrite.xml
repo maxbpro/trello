@@ -1,0 +1,10 @@
+<urlrewrite default-match-type="wildcard">
+    <rule>
+        <from>/users</from>
+        <to>/index.html</to>
+    </rule>
+    <rule>
+        <from>/dashboard</from>
+        <to>/index.html</to>
+    </rule>
+</urlrewrite>

@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width">
-        <title>Angello in Action</title>
+        <title>Work Cards</title>
 
         <link rel="stylesheet" href="assets/css/normalize.css">
 
@@ -16,23 +16,27 @@
 
         <link rel="stylesheet" href="assets/css/angello.css">
         <link rel="stylesheet" href="assets/css/animations.css">
+
+        <base href="/">
+
     </head>
 
     <body ng-controller="MainCtrl as main" ng-class="{loading:loadingView}">
-        <div class="navbar navbar-fixed-top navbar-default">
+        <div class="navbar navbar-fixed-top">
             <div class="navbar-header pull-left">
                 <a class="logo navbar-brand" href="#/">
-                    <img src="assets/img/angello.png">
+                    <img src="assets/img/work_cards_small.png">
+                    <a class="navbar-brand" style="margin-top: 10px; color: white" href="#">Work Cards</a>
                 </a>
             </div>
             <div class="btn-group pull-right" ng-show="main.currentUser">
-                <a class="btn btn-danger" href="#/">
+                <a class="btn btn-danger" href="/">
                     <span class="glyphicon glyphicon-home"></span>
                 </a>
-                <a class="btn btn-danger" href="#/users">
+                <a class="btn btn-danger" href="/users">
                     <span class="glyphicon glyphicon-user"></span>
                 </a>
-                <a class="btn btn-danger" href="#/dashboard">
+                <a class="btn btn-danger" href="/dashboard">
                     <span class="glyphicon glyphicon-signal"></span>
                 </a>
                 <button class="btn btn-default" ng-click="main.logout()">

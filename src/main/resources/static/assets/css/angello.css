@@ -2,7 +2,7 @@ html,
 html,
 body {
     background-color: #36393D;
-    background: url(../img/bg-wood.jpg);
+    background: url(../img/bg1.jpg);
     overflow: hidden;
 }
 
@@ -30,6 +30,7 @@ body.loading .modal {
     -moz-box-shadow: 0 7px 30px 2px #000;
     -webkit-box-shadow: 0 7px 30px 2px #000;
     box-shadow: 0 7px 30px 2px #000;
+    background-color: #1187c4 !important;
 }
 
 .navbar .logo {
@@ -249,23 +250,23 @@ form.ng-dirty input.ng-valid {
     max-width: none !important;
 }
 
-.form-signin button {
-    background: none;
-    border: none;
-    box-shadow: none;
-}
+/*.form-signin button {*/
+    /*background: dodgerblue;*/
+    /*border: none;*/
+    /*box-shadow: none;*/
+/*}*/
 
-.form-signin button:hover {
-    background: none;
-    border: none;
-    box-shadow: none;
-}
+/*.form-signin button:hover {*/
+    /*background: red;*/
+    /*border: none;*/
+    /*box-shadow: none;*/
+/*}*/
 
-.form-signin .large {
-    color: #333;
-    font-size: 24px;
-    font-weight: bold;
-}
+/*.form-signin .large {*/
+    /*color: #333;*/
+    /*font-size: 24px;*/
+    /*font-weight: bold;*/
+/*}*/
 
 .error {
   color: red;
