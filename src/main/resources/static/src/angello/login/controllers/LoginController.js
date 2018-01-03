@@ -8,7 +8,6 @@ angular.module('Angello.Login')
             $scope.buttonText="Logging in. . .";
 
             authService.login($scope.credentials.username,$scope.credentials.password).then(function(data){
-                //$state.go('admin.postViewAll');
                 $location.path('/');
             },function(err){
                 $scope.invalidLogin=true;
