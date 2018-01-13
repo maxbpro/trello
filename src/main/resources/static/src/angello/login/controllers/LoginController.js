@@ -19,7 +19,7 @@ angular.module('Angello.Login')
 
 
 
-angular.module('Angello.Login').value('API_ENDPOINT','http://localhost:8080/api/posts/:id');
-angular.module('Angello.Login').value('AUTH_ENDPOINT','http://localhost:8080/authenticate');
-angular.module('Angello.Login').value('LOGOUT_ENDPOINT','http://localhost:8080/logout');
+angular.module('Angello.Login').value('API_ENDPOINT','http://workcards.info/api/posts/:id');
+angular.module('Angello.Login').value('AUTH_ENDPOINT','http://workcards.info/authenticate');
+angular.module('Angello.Login').value('LOGOUT_ENDPOINT','http://workcards.info/logout');
 
