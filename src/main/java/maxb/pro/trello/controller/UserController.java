@@ -23,17 +23,20 @@ public class UserController {
     private AppUserRepository appUserRepository;
 
 
-//    @PostConstruct
-//    private void init(){
-//        AppUser appUser = new AppUser();
-//        appUser.setEmail("maxbpro2009@gmail.com");
-//        appUser.setPassword("1234");
-//        appUser.setName("Maxim Buyanow");
-//        List<String> roles = new ArrayList<>();
-//        roles.add("USER");
-//        appUser.setRoles(roles);
-//        appUserRepository.save(appUser);
-//    }
+    @PostConstruct
+    private void init(){
+
+        //List<AppUser> all = appUserRepository.findAll();
+
+        AppUser appUser = new AppUser();
+        appUser.setEmail("maxbpro2009@gmail.com");
+        appUser.setPassword("1234");
+        appUser.setName("Maxim Buyanow");
+        List<String> roles = new ArrayList<>();
+        roles.add("USER");
+        appUser.setRoles(roles);
+        appUserRepository.save(appUser);
+    }
 
     /**
      * Web service for getting all the appUsers in the application.
