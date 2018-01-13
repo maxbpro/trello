@@ -3,7 +3,7 @@ angular.module('Angello.Common')
     .service('EndpointConfigService', function($rootScope, CURRENT_BACKEND) {
         var service = this,
             endpointMap = {
-                java: { URI: 'http://localhost:8080/', root: '', format: ''}
+                java: { URI: 'http://workcards.info/', root: '', format: ''}
             },
             currentEndpoint = endpointMap[CURRENT_BACKEND],
             userId = null,
