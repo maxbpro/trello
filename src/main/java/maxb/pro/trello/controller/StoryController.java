@@ -25,25 +25,24 @@ public class StoryController {
     private StoryRepository storyRepository;
 
 
-    @PostConstruct
-    private void initPosts(){
-
-        storyRepository.deleteAll();
-
-        for(int i = 0; i < 10; i++){
-            Story story = new Story();
-            story.setTitle("story" + i);
-            story.setDescription("bla bla bla");
-            story.setAssignee(new Long(1));
-            story.setReporter(new Long(1));
-            story.setCriteria("some criteria");
-            story.setType("Bug");
-            story.setStatus("To Do");
-            storyRepository.save(story);
-        }
-
-
-    }
+//    @PostConstruct
+//    private void initPosts(){
+//
+//        storyRepository.deleteAll();
+//
+//        for(int i = 0; i < 10; i++){
+//            Story story = new Story();
+//            story.setTitle("story" + i);
+//            story.setDescription("bla bla bla");
+//            story.setAssignee(new Long(1));
+//            story.setReporter(new Long(1));
+//            story.setCriteria("some criteria");
+//            story.setType("Bug");
+//            story.setStatus("To Do");
+//            storyRepository.save(story);
+//        }
+//
+//    }
 
 
     @RequestMapping(method = RequestMethod.GET)
