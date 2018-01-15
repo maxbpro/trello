@@ -22,9 +22,9 @@ angular.module('Angello.Common')
                 $rootScope.$broadcast('onCurrentUserId', $localStorage.currentUser.user.id);
 
                 // add jwt token to auth header for all requests made by the $http service
-                $http.defaults.headers.common.Authorization = 'Bearer ' + auth.token;
+                $http.defaults.headers.common.Authorization = 'Bearer ' + response.data.token ;
 
-                return auth.user;
+                return { user: response.data.user, token: response.data.token  };
             });
 
         }
